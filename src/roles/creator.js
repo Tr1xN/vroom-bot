@@ -16,7 +16,7 @@ export const creatorComposer = new Composer()
 
 creatorComposer.hears("🎟️ Забронювати", (ctx) => {
     ctx.session.order = {};
-    ctx.replyWithPhoto(new InputFile(process.env.BOT_PATH + "/src/img/price.jpg"), { caption: 'Обери категорію:', reply_markup: categorysMenu });
+    ctx.replyWithPhoto(new InputFile(process.env.BOT_PATH + "/src/img/price.jpg"), { caption: 'Обери категорію:', reply_markup: adminCategorysMenu });
 })
 
 creatorComposer.command("start", async (ctx) => {

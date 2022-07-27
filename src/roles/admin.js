@@ -16,7 +16,7 @@ export const adminComposer = new Composer()
 
 adminComposer.hears("🎟️ Забронювати", (ctx) => {
     ctx.session.order = {};
-    ctx.replyWithPhoto(new InputFile(process.env.BOT_PATH + "/src/img/price.jpg"), { caption: 'Обери категорію:', reply_markup: categorysMenu });
+    ctx.replyWithPhoto(new InputFile(process.env.BOT_PATH + "/src/img/price.jpg"), { caption: 'Обери категорію:', reply_markup: adminCategorysMenu });
 })
 
 adminComposer.command("start", async (ctx) => {
