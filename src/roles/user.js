@@ -9,7 +9,7 @@ import Calendar from '../keyboards/custom/calendar.js';
 
 dotenv.config()
 
-const calendar = new Calendar({ minDate: moment().add(1, 'day'), maxDate: moment().add(28, 'days') });
+const calendar = new Calendar({ minDate: moment(), maxDate: moment().add(28, 'days') });
 
 export const userComposer = new Composer()
 
