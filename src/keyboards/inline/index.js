@@ -5,10 +5,6 @@ const categorysMenu = new InlineKeyboard()
     .text('PS5', 'ps')
     .text('Свято', 'holiday')
 
-const adminCategorysMenu = new InlineKeyboard()
-    .text('VR', 'vr')
-    .text('PS5', 'ps')
-
 const callMenu = new InlineKeyboard()
     .text('Так', '1call')
     .text('Ні', '0call')
@@ -20,4 +16,4 @@ const confirmMenu = new InlineKeyboard()
 const linksMenu = new InlineKeyboard()
     .url('📸 Instagram', 'https://www.instagram.com/vroom_gorishniplavni')
 
-export { categorysMenu, callMenu, confirmMenu, linksMenu, adminCategorysMenu }
+export { categorysMenu, callMenu, confirmMenu, linksMenu }

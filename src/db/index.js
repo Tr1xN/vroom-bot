@@ -48,6 +48,10 @@ async function findOrdersByPhone(phone) {
     return await orderModel.find({ phone: phone });
 }
 
+async function findOrders(date, time, category) {
+    return await orderModel.find({ date: date, time: time, category: category });
+}
+
 async function getUserRole(telegramID) {
     return await userModel.findOne({ telegramID: telegramID }).then(user => {
         return user.role;
@@ -84,4 +88,21 @@ async function setCreator(telegramID) {
         });
 }
 
-export { connectToMongo, getFreeKits, isPSFree, createOrder, findUser, createUser, getUserRole, findUsersByRole, findOrdersByPhone, setRole, setCreator, findUserByPhone }
+async function deleteOrderById(id) {
+    return await orderModel.deleteOne({ _id: id })
+        .then((callback) => {
+            console.log('[OK] Order is deleted')
+            if(callback.deletedCount == 0){
+                return 'Бронювання не існує'
+            }
+            else{
+                return 'Бронювання було видалено'
+            }
+        })
+        .catch(err => {
+            console.error(err)
+            return 'Сталась помилка'
+        });
+}
+
+export { connectToMongo, getFreeKits, isPSFree, createOrder, findUser, createUser, getUserRole, findUsersByRole, findOrdersByPhone, setRole, setCreator, findUserByPhone, findOrders, deleteOrderById }

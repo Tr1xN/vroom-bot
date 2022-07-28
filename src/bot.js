@@ -27,6 +27,6 @@ creator.use(session({ initial: () => ({ order: {} }) }));
 guest.use(guestComposer);
 user.use(userComposer).use(defaultComposer);
 admin.use(adminComposer).use(defaultComposer);
-creator.use(creatorComposer).use(defaultComposer);
+creator.use(creatorComposer).use(adminComposer).use(defaultComposer);
 
 bot.start()

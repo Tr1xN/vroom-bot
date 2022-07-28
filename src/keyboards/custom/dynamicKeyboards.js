@@ -1,4 +1,5 @@
 import { InlineKeyboard } from "grammy";
+import moment from "moment";
 import { getFreeKits, isPSFree } from "../../db/index.js";
 
 async function getVRKeyboard(date) {
@@ -8,7 +9,22 @@ async function getVRKeyboard(date) {
     for (let i = 0; i < timesArray.length; i++) {
         const freeKits = await getFreeKits(date, timesArray[i])
         const indicators = ['❌❌❌❌', '✅❌❌❌', '✅✅❌❌', '✅✅✅❌', '✅✅✅✅'];
-        timeKeyboard.text(`${timesArray[i]} ${indicators[freeKits]}`, freeKits == 0 ? 'null' : timesArray[i]);
+        if (moment(timesArray[i], 'hh:mm').hour() - 2 < moment().hour() && moment().isSame(date, 'date')) {
+            timeKeyboard.text(`${timesArray[i]} ⛔`, 'null');
+        }
+        else {
+            let callback = 'null';
+            if (freeKits == 0) {
+                callback = 'b' + timesArray[i];
+            }
+            else if (freeKits == 4) {
+                callback = 'o' + timesArray[i];
+            }
+            else {
+                callback = timesArray[i];
+            }
+            timeKeyboard.text(`${timesArray[i]} ${indicators[freeKits]}`, callback);
+        }
         if (i % 2 == 1) {
             timeKeyboard.row()
         }
@@ -24,10 +40,10 @@ async function getPSKeyboard(date) {
 
     for (let i = 0; i < timesArray.length; i++) {
         if (await isPSFree(date, timesArray[i])) {
-            timeKeyboard.text(`${timesArray[i]} ✅`, timesArray[i]);
+            timeKeyboard.text(`${timesArray[i]} ✅`, 'o' + timesArray[i]);
         }
         else {
-            timeKeyboard.text(`${timesArray[i]} ❌`, 'null');
+            timeKeyboard.text(`${timesArray[i]} ❌`, 'b' + timesArray[i]);
         }
         if (i % 2 == 1)
             timeKeyboard.row()
@@ -41,7 +57,7 @@ async function getKitsAmountKeyboard(date, time) {
     const timeKeyboard = new InlineKeyboard();
     const freeKits = await getFreeKits(date, time)
     for (let i = 1; i <= freeKits; i++) {
-        timeKeyboard.text(i, i+'kits');
+        timeKeyboard.text(i, i + 'kits');
     }
 
     return timeKeyboard;

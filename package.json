@@ -1,6 +1,6 @@
 {
   "name": "vroom-bot",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "telegram bot for \"vroom\" VR club",
   "main": "src/bot.js",
   "scripts": {

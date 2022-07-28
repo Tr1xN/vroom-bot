@@ -59,7 +59,7 @@ export default class Calendar {
             week.forEach(day => {
                 if (day !== ' ') {
                     if (day.isAfter(moment(this.minDate)) && day.isBefore(moment(this.maxDate))) {
-                        calendarKeyboard.text(day.date(), day);
+                        calendarKeyboard.text(day.date(), day.format('YYYY-MM-DD'));
                     }
                     else {
                         calendarKeyboard.text('❌' + day.date(), 'null');
