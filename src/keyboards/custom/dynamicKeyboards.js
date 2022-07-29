@@ -9,7 +9,7 @@ async function getVRKeyboard(date) {
     for (let i = 0; i < timesArray.length; i++) {
         const freeKits = await getFreeKits(date, timesArray[i])
         const indicators = ['❌❌❌❌', '✅❌❌❌', '✅✅❌❌', '✅✅✅❌', '✅✅✅✅'];
-        if (moment(timesArray[i], 'hh:mm').hour() - 2 < moment().hour() && moment().isSame(date, 'date')) {
+        if (moment(timesArray[i], 'hh:mm').hour() - 1 < moment().hour() && moment().isSame(date, 'date')) {
             timeKeyboard.text(`${timesArray[i]} ⛔`, 'null');
         }
         else {
