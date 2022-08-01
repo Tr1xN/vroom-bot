@@ -13,8 +13,6 @@ dotenv.config()
 
 export const defaultComposer = new Composer()
 
-const calendar = new Calendar({ minDate: moment().subtract(1, 'day'), maxDate: moment().add(28, 'days') });
-
 defaultComposer.command("start", async (ctx) => {
     await ctx.reply(`Привіт ${ctx.from.first_name}!☺️`);
     await sleep(1)
@@ -28,6 +26,7 @@ defaultComposer.command("start", async (ctx) => {
 
 defaultComposer.hears("🎟️ Забронювати", (ctx) => {
     ctx.replyWithPhoto(new InputFile(process.env.BOT_PATH + "/src/img/price.jpg"), { caption: 'Обери категорію:', reply_markup: categorysMenu });
+    const calendar = new Calendar({ minDate: moment().subtract(1, 'day'), maxDate: moment().add(28, 'days') });
 })
 
 defaultComposer.hears("ℹ️ Інформація", (ctx) => {

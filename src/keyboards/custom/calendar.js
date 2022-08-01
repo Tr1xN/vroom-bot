@@ -29,7 +29,7 @@ export default class Calendar {
     getCalendarKeyboard() {
         const calendarKeyboard = new InlineKeyboard()
 
-        if(moment().set('month', this.page-1).endOf('month').isAfter(moment(this.minDate))) {
+        if(moment().set('month', this.page-1).endOf('month').isAfter(moment().add(this.minDate, 'day'))) {
             calendarKeyboard.text('⬅️', 'prev')
         }
         else{
@@ -38,7 +38,7 @@ export default class Calendar {
 
         calendarKeyboard.text(moment().set('month', this.page).format("MMMM") + ' ' + moment().year(), 'null')
 
-        if(moment().set('month', this.page+1).startOf('month').isBefore(moment(this.maxDate))) {
+        if(moment().set('month', this.page+1).startOf('month').isBefore(moment().add(this.maxDate, 'day'))) {
             calendarKeyboard.text('➡️', 'next')
         }
         else{
@@ -58,7 +58,7 @@ export default class Calendar {
         this.getCalendarArray().forEach(week => {
             week.forEach(day => {
                 if (day !== ' ') {
-                    if (day.isAfter(moment(this.minDate)) && day.isBefore(moment(this.maxDate))) {
+                    if (day.isAfter(moment().add(this.minDate, 'day')) && day.isBefore(moment().add(this.maxDate, 'day'))) {
                         calendarKeyboard.text(day.date(), day.format('YYYY-MM-DD'));
                     }
                     else {
