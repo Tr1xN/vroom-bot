@@ -13,7 +13,7 @@ dotenv.config()
 
 export const defaultComposer = new Composer()
 
-const calendar = new Calendar({ minDate: moment().subtract(1, 'day'), maxDate: moment().add(28, 'days') });
+const calendar = new Calendar({ minDate: -1, maxDate: 28 });
 
 defaultComposer.command("start", async (ctx) => {
     await ctx.reply(`Привіт ${ctx.from.first_name}!☺️`);
