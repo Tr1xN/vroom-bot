@@ -1,5 +1,4 @@
 import { Composer, InputFile } from 'grammy';
-import moment from 'moment';
 import dotenv from 'dotenv';
 
 import { createOrder, findUser, findUsersByRole } from '../db/index.js';
