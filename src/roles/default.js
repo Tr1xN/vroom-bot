@@ -26,7 +26,7 @@ defaultComposer.command("start", async (ctx) => {
 
 
 defaultComposer.hears("🎟️ Забронювати", (ctx) => {
-    ctx.replyWithPhoto(new InputFile(process.env.BOT_PATH + "/src/img/price.jpg"), { caption: 'Обери категорію:', reply_markup: categorysMenu });
+    ctx.replyWithPhoto(new InputFile(process.env.BOT_PATH + "/src/img/price.png"), { caption: 'Обери категорію:', reply_markup: categorysMenu });
 })
 
 defaultComposer.hears("ℹ️ Інформація", (ctx) => {
