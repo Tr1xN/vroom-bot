@@ -10,24 +10,26 @@ export default class Calendar {
     }
 
     getCalendarArray() {
-        const startWeek = moment().set('month', this.page).startOf('month').week();
-        const endWeek = moment().set('month', this.page).endOf('month').week();
+        const startDate = moment().set('month', this.page).startOf('month');
+        const endDate = moment().set('month', this.page).endOf('month');
         const calendarArray = [];
 
-        for (let week = startWeek; week <= endWeek; week++) {
+        for (let date = startDate; date.isBefore(endDate); date.add(7, 'days')) {
             calendarArray.push(Array(7).fill(0).map((e, i) => {
-                if (moment().set('month', this.page).week(week).startOf('week').add(e + i, 'day').month() !== moment().set('month', this.page).month()) {
+                if (moment(date).set('month', this.page).startOf('week').add(e + i, 'day').month() !== moment().set('month', this.page).month()) {
                     return ' ';
                 }
-                return moment().set('month', this.page).week(week).startOf('week').add(e + i, 'day');
+                return moment(date).set('month', this.page).startOf('week').add(e + i, 'day');
             }))
         }
-
+        
         return calendarArray;
     }
 
     getCalendarKeyboard() {
         const calendarKeyboard = new InlineKeyboard()
+
+        console.log(moment().set('month', this.page+1));
 
         if(moment().set('month', this.page-1).endOf('month').isAfter(moment().add(this.minDate, 'day'))) {
             calendarKeyboard.text('⬅️', 'prev')
