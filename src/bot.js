@@ -1,6 +1,5 @@
 import { Bot, session } from 'grammy';
 import { run } from "@grammyjs/runner";
-import moment from 'moment';
 import dotenv from 'dotenv';
 
 import { connectToMongo, findUser, getUserRole } from './db/index.js';
@@ -11,7 +10,6 @@ import { creatorComposer } from './roles/creator.js'
 import { defaultComposer } from './roles/default.js'
 
 dotenv.config()
-moment.locale('uk');
 connectToMongo();
 
 const bot = new Bot(process.env.BOT_TOKEN);

@@ -9,7 +9,7 @@ import Calendar from '../keyboards/custom/calendar.js';
 
 export const defaultComposer = new Composer()
 
-const calendar = new Calendar({ minDate: -1, maxDate: 28 });
+const calendar = new Calendar(-1, 7*4*2);
 
 defaultComposer.command("start", async (ctx) => {
     await ctx.reply(`Привіт ${ctx.from.first_name}!☺️`);
