@@ -1,6 +1,6 @@
 import { InlineKeyboard } from "grammy";
 import moment from "moment";
-import { getFreeKits, isPSFree } from "../../db/index.js";
+import { getFreeKits, isPSFree, isCarFree } from "../../db/index.js";
 
 async function getVRKeyboard(date) {
     const timeKeyboard = new InlineKeyboard();
@@ -39,14 +39,45 @@ async function getPSKeyboard(date) {
     const timesArray = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
 
     for (let i = 0; i < timesArray.length; i++) {
-        if (await isPSFree(date, timesArray[i])) {
-            timeKeyboard.text(`${timesArray[i]} ✅`, 'o' + timesArray[i]);
+        if (moment(timesArray[i], 'hh:mm').hour() - 1 < moment().hour() && moment().isSame(date, 'date')) {
+            timeKeyboard.text(`${timesArray[i]} ⛔`, 'null');
         }
         else {
-            timeKeyboard.text(`${timesArray[i]} ❌`, 'b' + timesArray[i]);
+            if (await isPSFree(date, timesArray[i])) {
+                timeKeyboard.text(`${timesArray[i]} ✅`, 'o' + timesArray[i]);
+            }
+            else {
+                timeKeyboard.text(`${timesArray[i]} ❌`, 'b' + timesArray[i]);
+            }
         }
-        if (i % 2 == 1)
+        if (i % 2 == 1){
             timeKeyboard.row()
+        }
+    }
+    timeKeyboard.text('⬅️Повернутись', 'backToCalendar')
+
+    return timeKeyboard;
+}
+
+async function getCarKeyboard(date) {
+    const timeKeyboard = new InlineKeyboard();
+    const timesArray = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
+
+    for (let i = 0; i < timesArray.length; i++) {
+        if (moment(timesArray[i], 'hh:mm').hour() - 1 < moment().hour() && moment().isSame(date, 'date')) {
+            timeKeyboard.text(`${timesArray[i]} ⛔`, 'null');
+        }
+        else {
+            if (await isCarFree(date, timesArray[i])) {
+                timeKeyboard.text(`${timesArray[i]} ✅`, 'o' + timesArray[i]);
+            }
+            else {
+                timeKeyboard.text(`${timesArray[i]} ❌`, 'b' + timesArray[i]);
+            }
+        }
+        if (i % 2 == 1){
+            timeKeyboard.row()
+        }
     }
     timeKeyboard.text('⬅️Повернутись', 'backToCalendar')
 
@@ -63,4 +94,4 @@ async function getKitsAmountKeyboard(date, time) {
     return timeKeyboard;
 }
 
-export { getVRKeyboard, getPSKeyboard, getKitsAmountKeyboard };
+export { getVRKeyboard, getPSKeyboard, getKitsAmountKeyboard, getCarKeyboard };

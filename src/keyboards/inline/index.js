@@ -1,9 +1,11 @@
 import { InlineKeyboard } from 'grammy';
 
 const categorysMenu = new InlineKeyboard()
-    .text('VR', 'vr')
-    .text('PS5', 'ps')
-    .text('Свято', 'holiday')
+    .text('🥽 VR', 'vr')
+    .text('🎮 PS5', 'ps')
+    .text('🏎️ CAR', 'car')
+    .row()
+    .text('🎉 Свято', 'holiday')
 
 const callMenu = new InlineKeyboard()
     .text('Так', '1call')
@@ -16,4 +18,7 @@ const confirmMenu = new InlineKeyboard()
 const linksMenu = new InlineKeyboard()
     .url('📸 Instagram', 'https://www.instagram.com/vroom_gorishniplavni')
 
-export { categorysMenu, callMenu, confirmMenu, linksMenu }
+const settingsMenu = new InlineKeyboard()
+    .text('Додати прайс лист', 'addPriceList')
+
+export { categorysMenu, callMenu, confirmMenu, linksMenu, settingsMenu }

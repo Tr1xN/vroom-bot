@@ -1,10 +1,11 @@
 import { Composer, InputFile } from 'grammy';
+import fs from 'fs';
 
 import { createOrder, findUser, findUsersByRole } from '../db/index.js';
 import data from '../json/data.json' assert {type: 'json'};
 import { mainMenu, infoMenu } from '../keyboards/markup/index.js';
 import { categorysMenu, callMenu, confirmMenu, linksMenu } from '../keyboards/inline/index.js'
-import { getVRKeyboard, getPSKeyboard, getKitsAmountKeyboard } from '../keyboards/custom/dynamicKeyboards.js'
+import { getVRKeyboard, getPSKeyboard, getCarKeyboard, getKitsAmountKeyboard } from '../keyboards/custom/dynamicKeyboards.js'
 import Calendar from '../keyboards/custom/calendar.js';
 
 export const defaultComposer = new Composer()
@@ -23,7 +24,13 @@ defaultComposer.command("start", async (ctx) => {
 
 
 defaultComposer.hears("🎟️ Забронювати", (ctx) => {
-    ctx.replyWithPhoto(new InputFile("./src/img/price.png"), { caption: 'Обери категорію:', reply_markup: categorysMenu });
+    if (fs.existsSync("./src/img/price.png")) {
+        ctx.replyWithPhoto(new InputFile("./src/img/price.png"), { caption: 'Обери категорію:', reply_markup: categorysMenu });
+    }
+    else {
+        ctx.reply('Обери категорію:', { reply_markup: categorysMenu });
+
+    }
 })
 
 defaultComposer.hears("ℹ️ Інформація", (ctx) => {
@@ -50,7 +57,7 @@ defaultComposer.hears("❌ Закрити", (ctx) => {
 })
 
 
-defaultComposer.callbackQuery(['vr', 'ps', 'holiday'], async (ctx) => {
+defaultComposer.callbackQuery(['vr', 'ps', 'car', 'holiday'], async (ctx) => {
     ctx.session.order.category = ctx.callbackQuery.data;
     await ctx.deleteMessage();
     await ctx.reply('🗓️Обери дату:', { reply_markup: calendar.getCalendarKeyboard() });
@@ -72,6 +79,9 @@ defaultComposer.callbackQuery(/\d{4}-\d{2}-\d{2}/, async (ctx) => {
     else if (ctx.session.order.category === 'ps') {
         ctx.editMessageText('🕐Обери час:', { reply_markup: await getPSKeyboard(ctx.session.order.date) });
     }
+    else if (ctx.session.order.category === 'car') {
+        ctx.editMessageText('🕐Обери час:', { reply_markup: await getCarKeyboard(ctx.session.order.date) });
+    }
     else if (ctx.session.order.category === 'holiday') {
         let orderString = `Категорія: Свято\nДата: ${ctx.session.order.date}`
         ctx.editMessageText('Підтвердіть замовлення:\n\n' + orderString, { reply_markup: confirmMenu })
@@ -88,6 +98,9 @@ defaultComposer.callbackQuery(/^o?\d{2}:00$/, async (ctx) => {
         ctx.editMessageText('Скільки місць бронюєте?', { reply_markup: await getKitsAmountKeyboard(ctx.session.order.date, ctx.session.order.time) })
     }
     else if (ctx.session.order.category === 'ps') {
+        ctx.editMessageText('📞Перетелефонувати вам для підтвердження замовлення?', { reply_markup: callMenu })
+    }
+    else if (ctx.session.order.category === 'car') {
         ctx.editMessageText('📞Перетелефонувати вам для підтвердження замовлення?', { reply_markup: callMenu })
     }
 });

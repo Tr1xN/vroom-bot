@@ -13,4 +13,7 @@ const infoMenu = new Keyboard()
 const requestContact = new Keyboard()
     .requestContact('📞Надіслати номер телефону')
 
-export { mainMenu, infoMenu, requestContact }
+const addPriceListMenu = new Keyboard()
+    .text('Скасувати')
+
+export { mainMenu, infoMenu, requestContact, addPriceListMenu }

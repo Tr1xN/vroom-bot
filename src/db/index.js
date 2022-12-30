@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+mongoose.set('strictQuery', false);
 import orderModel from "./models/order.model.js";
 import userModel from "./models/user.model.js";
 import moment from "moment";
@@ -21,6 +22,13 @@ async function getFreeKits(date, time) {
 
 async function isPSFree(date, time) {
     if (await orderModel.findOne({ date: moment(date).format('YYYY-MM-DD'), time: time, category: 'ps' })) {
+        return false;
+    }
+    return true;
+}
+
+async function isCarFree(date, time) {
+    if (await orderModel.findOne({ date: moment(date).format('YYYY-MM-DD'), time: time, category: 'car' })) {
         return false;
     }
     return true;
@@ -105,4 +113,4 @@ async function deleteOrderById(id) {
         });
 }
 
-export { connectToMongo, getFreeKits, isPSFree, createOrder, findUser, createUser, getUserRole, findUsersByRole, findOrdersByPhone, setRole, setCreator, findUserByPhone, findOrders, deleteOrderById }
+export { connectToMongo, getFreeKits, isPSFree, isCarFree, createOrder, findUser, createUser, getUserRole, findUsersByRole, findOrdersByPhone, setRole, setCreator, findUserByPhone, findOrders, deleteOrderById }

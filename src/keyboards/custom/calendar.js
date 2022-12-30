@@ -30,7 +30,6 @@ export default class Calendar {
     }
 
     getCalendarKeyboard(date){
-        console.log(date);
         if(date == undefined){
             this.pageDate = dayjs().startOf('month');
             date = this.pageDate

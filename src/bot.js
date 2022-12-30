@@ -1,5 +1,6 @@
 import { Bot, session } from 'grammy';
 import { run } from "@grammyjs/runner";
+import { hydrateFiles } from "@grammyjs/files";
 import dotenv from 'dotenv';
 
 import { connectToMongo, findUser, getUserRole } from './db/index.js';
@@ -13,6 +14,8 @@ dotenv.config()
 connectToMongo();
 
 const bot = new Bot(process.env.BOT_TOKEN);
+bot.api.config.use(hydrateFiles(bot.token));
+
 const guest = bot.filter(async ctx => await findUser(ctx.from.id) == null)
 const user = bot.filter(async ctx => await getUserRole(ctx.from.id) == 'user')
 const admin = bot.filter(async ctx => await getUserRole(ctx.from.id) == 'admin')
