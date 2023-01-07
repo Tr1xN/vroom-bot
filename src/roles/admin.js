@@ -76,9 +76,10 @@ adminComposer.callbackQuery('create', async (ctx) => {
     }
     else if (ctx.session.order.category === 'ps') {
         let orderString = `Категорія: ${ctx.session.order.category.toUpperCase()}\nДата: ${ctx.session.order.date}\nЧас: ${ctx.session.order.time}`
-        if (ctx.session.order.category == 'vr') {
-            orderString += `\nКількість місць: ${ctx.session.order.amount}`
-        }
+        ctx.editMessageText('Підтвердіть замовлення:\n\n' + orderString, { reply_markup: confirmMenu })
+    }
+    else if (ctx.session.order.category === 'car') {
+        let orderString = `Категорія: ${ctx.session.order.category.toUpperCase()}\nДата: ${ctx.session.order.date}\nЧас: ${ctx.session.order.time}`
         ctx.editMessageText('Підтвердіть замовлення:\n\n' + orderString, { reply_markup: confirmMenu })
     }
 });
